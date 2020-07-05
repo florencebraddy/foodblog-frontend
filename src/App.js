@@ -9,11 +9,9 @@ function App() {
     { username: "", password: "" }
   ]);
 
-  async function signOut() {
+  function signOut() {
     try {
-      await Auth.signOut({ global: true }).then(() => {
-        window.location = "";
-      });
+      Auth.signOut({ global: true }).then(()=> setSignedInUser(undefined))
     } catch (error) {
       console.log(error);
     }
@@ -21,11 +19,12 @@ function App() {
 
   async function signIn() {
     try {
-      console.log(await Auth.currentAuthenticatedUser());
       // testing purposes - never do this on a real app. Remove!!
       console.log(signInForm);
       const user = await Auth.signIn(signInForm.username, signInForm.password);
       setSignedInUser(user);
+      console.log(await Auth.currentAuthenticatedUser());
+
     } catch (error) {
       console.log(error);
     }
@@ -38,8 +37,7 @@ function App() {
 // console.log(signInForm)-to check signInForm is working
 return (
   <div className="App">
-    <button onClick={signOut}>Logout</button>
-    <div>
+    {signedInUser ? <button onClick={signOut}>Logout</button> :     <div>
       <input
         onChange={(e) =>
           setSignInForm({ ...signInForm, username: e.target.value })
@@ -53,7 +51,7 @@ return (
       />
       <button onClick={signIn}>Sign In</button>
     </div>
-    <h1>Profile Page!</h1>
+}
   </div>
 );
       }
