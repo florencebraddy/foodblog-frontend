@@ -50,7 +50,6 @@ function App() {
       </div>
     );
   }
-
   return <PrivateRoutes signOut={signOut} />;
 }
 // export default withAuthenticator(App);

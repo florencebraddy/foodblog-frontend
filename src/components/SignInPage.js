@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link as RouteLink } from "@reach/router";
 
 // function chooseRandomImage(images) {
 //   const keys
@@ -84,7 +85,8 @@ export default function SignInPage({ signIn, setSignInForm, signInForm }) {
     });
     return images;
   }
-  const images = importAll(require.context("../assets", false,/\.(png|jpe?g|svg)$/)
+  const images = importAll(
+    require.context("../assets", false, /\.(png|jpe?g|svg)$/)
   );
   console.log(images);
 
@@ -169,7 +171,10 @@ export default function SignInPage({ signIn, setSignInForm, signInForm }) {
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                <RouteLink to="/signup">
+                  {" "}
+                  {"Don't have an account? Sign Up"}
+                </RouteLink>
               </Link>
             </Grid>
           </Grid>
