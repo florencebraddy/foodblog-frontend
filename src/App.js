@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Auth } from "aws-amplify";
-import { Router, navigate } from "@reach/router";
 import SignInPage from "./components/SignInPage";
+import PrivateRoutes from "./pages/PrivateRoutes";
+import PublicRoutes from "./pages/PublicRoutes";
+
 //allows you to create a user
-// import { withAuthenticator } from "@aws-amplify/ui-react";
-
-function Home({ signOut, signedInUser }) {
-  if (!signedInUser) navigate("/signin");
-  return <button onClick={signOut}>Logout</button>;
-}
-
-function NotFound({}) {
-  return <div>There is nothing on this page!</div>;
-}
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 function App() {
   const [signedInUser, setSignedInUser] = useState(undefined);
-  const [signInForm, setSignInForm] = useState([
-    { username: "", password: "" }
-  ]);
+  const [signInForm, setSignInForm] = useState({ username: "", password: "" });
 
   function signOut() {
     try {
@@ -43,27 +34,24 @@ function App() {
   useEffect(() => {
     (async () => {
       const user = await Auth.currentAuthenticatedUser();
-      if (signedInUser) navigate("/");
       setSignedInUser(user);
     })();
   }, []);
-  // console.log(signInForm)
-  // to check signInForm is working
-  return (
-    <div className="App">
-      <Router>
-        <Home path="/" signOut={signOut} signedInUser={signedInUser} />
-        <SignInPage
-          path="/signin"
+
+  if (!signedInUser) {
+    return (
+      <div className="App">
+        <PublicRoutes
           signIn={signIn}
           setSignInForm={setSignInForm}
           signInForm={signInForm}
         />
-        <NotFound default />
-      </Router>
-    </div>
-  );
-}
+        />
+      </div>
+    );
+  }
 
+  return <PrivateRoutes signOut={signOut} />;
+}
 // export default withAuthenticator(App);
 export default App;
