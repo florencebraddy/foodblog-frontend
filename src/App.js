@@ -46,7 +46,6 @@ function App() {
           setSignInForm={setSignInForm}
           signInForm={signInForm}
         />
-        />
       </div>
     );
   }
