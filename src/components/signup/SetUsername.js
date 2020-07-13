@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SetUsername() {
+export default function SetUsername({ signUpForm, setSignUpForm }) {
   const classes = useStyles();
 
   return (
@@ -61,6 +61,9 @@ export default function SetUsername() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                onChange={event =>
+                  setSignUpForm({ ...signUpForm, username: event.target.value })
+                }
                 variant="outlined"
                 required
                 fullWidth
@@ -68,10 +71,14 @@ export default function SetUsername() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={signUpForm.username}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={event =>
+                  setSignUpForm({ ...signUpForm, password: event.target.value })
+                }
                 variant="outlined"
                 required
                 fullWidth
@@ -80,6 +87,7 @@ export default function SetUsername() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={signUpForm.password}
               />
             </Grid>
           </Grid>

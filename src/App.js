@@ -6,7 +6,7 @@ import PrivateRoutes from "./pages/PrivateRoutes";
 import PublicRoutes from "./pages/PublicRoutes";
 
 //allows you to create a user
-import { withAuthenticator } from "@aws-amplify/ui-react";
+// import { withAuthenticator } from "@aws-amplify/ui-react";
 
 function App() {
   const [signedInUser, setSignedInUser] = useState(undefined);
