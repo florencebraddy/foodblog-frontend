@@ -6,6 +6,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SetUsername from "../components/signup/SetUsername";
+import { Auth } from "aws-amplify";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +55,9 @@ export default function SignUp() {
   });
   console.log(signUpForm);
 
+  const [signUpUser, setSignUpUser] = React.useState(undefined);
+  console.log("signed up user", signUpUser);
+
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
@@ -62,8 +66,22 @@ export default function SignUp() {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
+  const handleCreateUser = () => {
+    try {
+      async function signUp() {
+        const user = await Auth.signUp({
+          username: signUpForm.username,
+          password: signUpForm.password,
+          attributes: {
+            email: signUpForm.username
+          }
+        });
+        setSignUpUser(user);
+      }
+      signUp();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -81,7 +99,7 @@ export default function SignUp() {
             <Typography className={classes.instructions}>
               All steps completed
             </Typography>
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleCreateUser}>Create User</Button>
           </div>
         ) : (
           <div>
