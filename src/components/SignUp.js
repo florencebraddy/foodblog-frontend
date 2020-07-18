@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import SetUsername from "../components/signup/SetUsername";
 import ConfirmSignUp from "../components/signup/ConfirmSignUp";
 import { Auth } from "aws-amplify";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,7 +58,8 @@ export default function SignUp() {
 
   const [signUpForm, setSignUpForm] = React.useState({
     username: "",
-    password: ""
+    password: "",
+    confirmationCode: ""
   });
   console.log(signUpForm);
 
@@ -83,11 +85,9 @@ export default function SignUp() {
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
-
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
-
   const handleCreateUser = () => {
     try {
       async function signUp() {
@@ -107,16 +107,18 @@ export default function SignUp() {
     }
   };
 
-  const handleConfirmUser = () => {
+  async function handleConfirmUser() {
     try {
-      const response = Auth.ConfirmSignUp(
+      const response = Auth.confirmSignUp(
         signUpForm.username,
         signUpForm.confirmationCode
       );
+      prompt(response);
+      if (response === "SUCCESS") navigate("/");
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
