@@ -109,7 +109,7 @@ export default function SignUp() {
 
   async function handleConfirmUser() {
     try {
-      const response = Auth.confirmSignUp(
+      const response = await Auth.confirmSignUp(
         signUpForm.username,
         signUpForm.confirmationCode
       );
