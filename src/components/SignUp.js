@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SetUsername from "../components/signup/SetUsername";
 import ConfirmSignUp from "../components/signup/ConfirmSignUp";
+import SetBio from "../components/SetBio";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 
@@ -41,7 +42,7 @@ function getStepContent(stepIndex, signUpForm, setSignUpForm) {
     case 1:
       return "Add a pretty profile picture!";
     case 2:
-      return "Tell everyone a little bit about yourself!";
+      return <SetBio signUpForm={signUpForm} setSignUpForm={setSignUpForm} />;
     case 3:
       return (
         <ConfirmSignUp signUpForm={signUpForm} setSignUpForm={setSignUpForm} />
@@ -59,6 +60,7 @@ export default function SignUp() {
   const [signUpForm, setSignUpForm] = React.useState({
     username: "",
     password: "",
+    bio: "",
     confirmationCode: ""
   });
   console.log(signUpForm);
@@ -114,7 +116,12 @@ export default function SignUp() {
         signUpForm.confirmationCode
       );
       prompt(response);
-      if (response === "SUCCESS") navigate("/");
+      if (response === "SUCCESS") {
+        //create profile pic
+        //create s3 bucket
+        //call the db here
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
