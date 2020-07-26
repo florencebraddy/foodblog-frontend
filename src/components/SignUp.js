@@ -129,9 +129,9 @@ export default function SignUp() {
           }
         )
           .then(result => console.log(result))
+          .then(() => navigate("/"))
           .catch(err => console.log(err));
         //call the db here
-        navigate("/");
       }
     } catch (error) {
       console.log(error);
