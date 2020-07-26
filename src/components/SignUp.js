@@ -9,7 +9,7 @@ import SetUsername from "../components/signup/SetUsername";
 import ConfirmSignUp from "../components/signup/ConfirmSignUp";
 import SetBio from "../components/SetBio";
 import ProfilePic from "../components/ProfilePic";
-import { Auth } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
@@ -64,6 +64,7 @@ export default function SignUp() {
     username: "",
     password: "",
     bio: "",
+    profilepic: undefined,
     confirmationCode: ""
   });
   console.log(signUpForm);
@@ -120,8 +121,15 @@ export default function SignUp() {
       );
       prompt(response);
       if (response === "SUCCESS") {
-        //create profile pic
-        //create s3 bucket
+        Storage.put(
+          "file_upload_after_user_creation.png",
+          signUpForm.profilepic,
+          {
+            contentType: "image/png"
+          }
+        )
+          .then(result => console.log(result))
+          .catch(err => console.log(err));
         //call the db here
         navigate("/");
       }
