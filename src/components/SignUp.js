@@ -11,6 +11,7 @@ import SetBio from "../components/SetBio";
 import ProfilePic from "../components/ProfilePic";
 import { Auth, Storage } from "aws-amplify";
 import { navigate } from "@reach/router";
+import { v4 as uuid } from "uuid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -122,7 +123,7 @@ export default function SignUp() {
       prompt(response);
       if (response === "SUCCESS") {
         Storage.put(
-          "file_upload_after_user_creation.png",
+          `${signUpForm.username}/profilepics/${uuid()}.png`,
           signUpForm.profilepic,
           {
             contentType: "image/png"
@@ -137,6 +138,7 @@ export default function SignUp() {
       console.log(error);
     }
   }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
