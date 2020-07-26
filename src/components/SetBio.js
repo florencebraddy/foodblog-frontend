@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SetUsername({ signUpForm, setSignUpForm }) {
+export default function SetBio({ signUpForm, setSignUpForm }) {
   const classes = useStyles();
 
   return (
@@ -75,7 +75,14 @@ export default function SetUsername({ signUpForm, setSignUpForm }) {
               />
             </Grid>
           </Grid>
-          <Grid container justify="flex-end"></Grid>
+          <Grid container justify="flex-end"></Grid>{" "}
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="#" variant="body2">
+                <RouteLink to="/">Already have an account? Sign in</RouteLink>
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
       <Box mt={5}>

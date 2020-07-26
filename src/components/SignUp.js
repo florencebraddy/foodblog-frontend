@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import SetUsername from "../components/signup/SetUsername";
 import ConfirmSignUp from "../components/signup/ConfirmSignUp";
 import SetBio from "../components/SetBio";
+import ProfilePic from "../components/ProfilePic";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 
@@ -40,7 +41,9 @@ function getStepContent(stepIndex, signUpForm, setSignUpForm) {
         <SetUsername signUpForm={signUpForm} setSignUpForm={setSignUpForm} />
       );
     case 1:
-      return "Add a pretty profile picture!";
+      return (
+        <ProfilePic signUpForm={signUpForm} setSignUpForm={setSignUpForm} />
+      );
     case 2:
       return <SetBio signUpForm={signUpForm} setSignUpForm={setSignUpForm} />;
     case 3:

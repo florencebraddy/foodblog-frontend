@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as RouteLink } from "@reach/router";
+import { Storage } from "aws-amplify";
 
 function Copyright() {
   return (
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function profilepic({ signUpForm, setSignUpForm }) {
+export default function ProfilePic({ signUpForm, setSignUpForm }) {
   const classes = useStyles();
 
   function onChange(e) {
@@ -55,6 +56,7 @@ export default function profilepic({ signUpForm, setSignUpForm }) {
       .then(result => console.log(result))
       .catch(err => console.log(err));
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -63,36 +65,26 @@ export default function profilepic({ signUpForm, setSignUpForm }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Tell us all about yoursefl!{" "}
+          Tell us all about yourself!
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                onChange={event =>
-                  setSignUpForm({
-                    ...signUpForm,
-                    profilepic: event.target.value
-                  })
-                }
-                variant="outlined"
-                required
-                fullWidth
-                id="profilepic"
-                label="ProfilePic"
-                name="profilepic"
-                autoComplete="profilepic"
-                value={signUpForm.profilepic}
-              />
               <input
                 type="file"
                 accept="image/png"
-                onChange={evt => this.onChange(evt)}
+                onChange={evt => onChange(evt)}
               />
-              ) }
             </Grid>
           </Grid>
           <Grid container justify="flex-end"></Grid>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="#" variant="body2">
+                <RouteLink to="/">Already have an account? Sign in</RouteLink>
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
       <Box mt={5}>
