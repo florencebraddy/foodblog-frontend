@@ -12,6 +12,7 @@ import ProfilePic from "../components/ProfilePic";
 import { Auth, Storage } from "aws-amplify";
 import { navigate } from "@reach/router";
 import { v4 as uuid } from "uuid";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -115,24 +116,37 @@ export default function SignUp() {
   };
 
   async function handleConfirmUser() {
+    async function uploadToSql(uuid) {
+      console.log("upload to mysql");
+      return await axios({
+        method: "post",
+        url: "https://flapgjoov2.execute-api.us-east-2.amazonaws.com/dev/user?",
+        data: {
+          username: signUpForm.username,
+          profilepic: uuid,
+          bio: signUpForm.bio
+        }
+      });
+    }
     try {
       const response = await Auth.confirmSignUp(
         signUpForm.username,
         signUpForm.confirmationCode
       );
-      prompt(response);
+      // prompt(response);
       if (response === "SUCCESS") {
+        const myUuid = uuid();
         Storage.put(
-          `${signUpForm.username}/profilepics/${uuid()}.png`,
+          `${signUpForm.username}/profilepics/${myUuid}.png`,
           signUpForm.profilepic,
           {
             contentType: "image/png"
           }
         )
           .then(result => console.log(result))
+          .then(() => uploadToSql(myUuid))
           .then(() => navigate("/"))
           .catch(err => console.log(err));
-        //call the db here
       }
     } catch (error) {
       console.log(error);
